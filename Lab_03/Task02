@@ -1,0 +1,35 @@
+#include<iostream>
+using namespace std;
+
+class Student{
+	private:
+	    int rollNumber;
+	public:
+		string name;
+		
+		setRollNumber(int r){
+			rollNumber=r;
+		};
+		getRollNumber(){
+			return rollNumber;
+		}
+		
+}; 
+
+int main(){
+	Student s1, s2, s3;
+	
+	s1.name="Hafsa";
+	s1.setRollNumber(825);
+	s2.name="Nimra";
+	s2.setRollNumber(807);
+	s3.name="Shorouq";
+	s3.setRollNumber(914);
+	
+
+    cout<<" Roll Number     Name"<<endl<<endl;
+    cout<<"     "<<s1.getRollNumber()<<"         "<<s1.name<<endl;
+    cout<<"     "<<s2.getRollNumber()<<"         "<<s2.name<<endl;
+    cout<<"     "<<s3.getRollNumber()<<"         "<<s3.name<<endl;
+    	
+}
