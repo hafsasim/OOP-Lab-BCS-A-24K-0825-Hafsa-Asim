@@ -7,10 +7,10 @@ class Student{
 	public:
 		string name;
 		
-		setRollNumber(int r){
+		void setRollNumber(int r){
 			rollNumber=r;
 		};
-		getRollNumber(){
+		int getRollNumber(){
 			return rollNumber;
 		}
 		
