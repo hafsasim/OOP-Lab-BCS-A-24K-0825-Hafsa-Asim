@@ -1,0 +1,28 @@
+#include<iostream>
+using namespace std;
+
+class Student{
+	public:
+		string name;
+		int rollNumber;
+}; 
+
+int main(){
+	Student s1, s2, s3;
+	
+	s1.name="Hafsa";
+	s1.rollNumber=825;
+	s2.name="Nimra";
+	s2.rollNumber=807;
+	s3.name="Shorouq";
+	s3.rollNumber=914;
+	
+
+    cout<<" Roll Number     Name"<<endl<<endl;
+    cout<<"     "<<s1.rollNumber<<"         "<<s1.name<<endl;
+    cout<<"     "<<s2.rollNumber<<"         "<<s2.name<<endl;
+    cout<<"     "<<s3.rollNumber<<"         "<<s3.name<<endl;
+    
+
+	
+}
