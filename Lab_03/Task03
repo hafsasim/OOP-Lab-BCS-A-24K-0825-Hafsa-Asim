@@ -1,0 +1,28 @@
+#include<iostream>
+using namespace std;
+
+class Calculator{
+	private:
+		int num1, num2;
+	public:
+		setNumbers(int n1, int n2){
+			num1=n1;
+			num2=n2;
+		}
+		add(){
+			return num1+num2;
+		}
+		getNum1(){
+			return num1;
+		}
+		getNum2(){
+			return num2;
+		}
+};
+
+int main(){
+	Calculator c1;
+	c1.setNumbers(32,17);
+	cout<<"Sum of "<<c1.getNum1()<<" and "<<c1.getNum2()<<" is: "<<c1.add();
+	
+}
