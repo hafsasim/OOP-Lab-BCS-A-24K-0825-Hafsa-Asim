@@ -5,17 +5,17 @@ class Calculator{
 	private:
 		int num1, num2;
 	public:
-		setNumbers(int n1, int n2){
+		void setNumbers(int n1, int n2){
 			num1=n1;
 			num2=n2;
 		}
-		add(){
+		int add(){
 			return num1+num2;
 		}
-		getNum1(){
+		int getNum1(){
 			return num1;
 		}
-		getNum2(){
+		int getNum2(){
 			return num2;
 		}
 };
