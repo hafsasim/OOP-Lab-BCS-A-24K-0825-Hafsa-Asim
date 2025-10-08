@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std;
+
+class CallRecord{
+    private:
+    int callerID;
+    double durationMinutes;
+    static int totalCalls;
+    public:
+    CallRecord(){
+        callerID=0;
+        durationMinutes=0.0;
+        totalCalls++;
+    }
+    static int getTotalCalls(){
+        return totalCalls;
+    } 
+
+};
+int CallRecord :: totalCalls=0;
+int main(){
+    CallRecord array[20];
+    cout<<"Total calls logged: "<<CallRecord::getTotalCalls();
+    
+}
