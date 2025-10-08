@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+class OrderDetails{
+    private:
+    int orderID;
+    string itemName;
+    const double deliveryFee;
+    public:
+    OrderDetails(int orderID, string itemName, double deliveryFee):deliveryFee(deliveryFee){
+        this->orderID=orderID;
+        this->itemName=itemName;
+    }
+    ~OrderDetails(){
+        cout<<"Order#"<<orderID<<" is being Archived and memory cleared."<<endl;
+    }
+
+};
+int main(){
+    const double deliveryFee=202.0;
+    OrderDetails order1(101,"Vase",deliveryFee);
+    OrderDetails order2(102,"Necklace",203);
+}
