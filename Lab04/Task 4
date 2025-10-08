@@ -1,0 +1,31 @@
+#include <iostream>
+using namespace std;
+
+class ServerSession{
+    private:
+    int sessionID;
+
+    public:
+    ServerSession(int id){
+        sessionID=id;
+        cout<<"Session "<<sessionID<< " has started. Resource Acquired."<<endl;
+    }
+    ~ServerSession(){
+        cout<<"Session "<<sessionID<< " has ended. Resource Released."<<endl;
+    }
+};
+int main(){
+    cout << "Entering main function..." << endl;
+
+    {
+        cout << "\n--- Entering session block ---" << endl;
+
+        ServerSession session1(201);  
+        ServerSession s2(202);
+
+        cout << "--- Exiting session block ---" << endl;
+    } 
+    cout << "\nBack in main function. Session block has ended." << endl;
+
+    return 0;   
+}
