@@ -1,0 +1,20 @@
+#include<iostream>
+using namespace std;
+
+class MobileDevice{
+    private:
+    string modelName;
+    const string IMEINumber;
+    public:
+    MobileDevice(string modelName, string IMEINumber):IMEINumber(IMEINumber){
+        this->modelName=modelName;
+    }
+    void verifyDevice()const{
+        cout<<"Model Name: "<<modelName<<endl;
+        cout<<"IMEI Number: "<<IMEINumber<<endl;
+    }
+};
+int main() {
+    MobileDevice phone("Samsung Galaxy S24", "356938035643809");
+    phone.verifyDevice();
+}
