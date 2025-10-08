@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std;
+
+class MobileAccount{
+    private:
+    double balance;
+    string number;
+    public:
+    MobileAccount(){
+        balance=50.0;
+        number="";
+    }
+    MobileAccount(string number, double initialbalance){
+        this->number=number;
+        balance=initialbalance;
+    }
+    void display(){
+        cout<<"Phone number: "<<number;
+        cout<<endl<<"balance: "<<balance;
+    }
+};
+
+int main(){
+    MobileAccount 
+}
