@@ -1,0 +1,57 @@
+#include<iostream>
+using namespace std;
+
+class PropertyDeed{
+    private:
+    int *ownerID;
+    public:
+    PropertyDeed(int id){
+        ownerID=new int(id);
+    }
+    PropertyDeed(const PropertyDeed &obj, bool deepcopy){
+        if(deepcopy){
+            ownerID=new int(*obj.ownerID);
+        }
+        else{
+            ownerID=obj.ownerID;
+        }
+    }
+    void display(){
+        cout<<"Owner's ID: "<<*ownerID<<endl;
+        cout<<"Data Address: "<<ownerID<<endl;
+    }
+    void setOwnerID(int id){
+        *ownerID=id;
+    }
+};
+
+
+int main(){
+    PropertyDeed deed1(101);
+    PropertyDeed shallowcopy(deed1, false);
+    PropertyDeed deepcopy(deed1, true);
+    cout<<endl<<"--------Before Change--------"<<endl;
+    cout<<"Original Object: "<<endl; deed1.display(); cout<<endl;
+    cout<<"Shallow Copy: "<<endl; shallowcopy.display(); cout<<endl;
+    cout<<"Deep copy: "<<endl; deepcopy.display(); cout<<endl;
+
+    deed1.setOwnerID(104);
+    cout<<endl<<"--------After Changing original objects data--------"<<endl;
+    cout<<"Original Object: "<<endl; deed1.display(); cout<<endl;
+    cout<<"Shallow Copy: "<<endl; shallowcopy.display(); cout<<endl;
+    cout<<"Deep copy: "<<endl; deepcopy.display(); cout<<endl;
+
+    shallowcopy.setOwnerID(107);
+    cout<<endl<<"--------After Changing Shallow copy's data--------"<<endl;
+   cout<<"Original Object: "<<endl; deed1.display(); cout<<endl;
+    cout<<"Shallow Copy: "<<endl; shallowcopy.display(); cout<<endl;
+    cout<<"Deep copy: "<<endl; deepcopy.display(); cout<<endl;
+
+    deepcopy.setOwnerID(114);
+    cout<<endl<<"--------After Changing Deep copy's data--------"<<endl;
+    cout<<"Original Object: "<<endl; deed1.display(); cout<<endl;
+    cout<<"Shallow Copy: "<<endl; shallowcopy.display(); cout<<endl;
+    cout<<"Deep copy: "<<endl; deepcopy.display(); cout<<endl;
+
+    return 0;
+}
