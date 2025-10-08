@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std;
+
+class CurrencyExchange{
+    private:
+    const double PKR_to_USD_Rate;
+    string &branchName;
+    int totalTransactions;
+
+    public:
+    CurrencyExchange(double rate,string &branch,int transactions): PKR_to_USD_Rate(rate),branchName(branch),totalTransactions(transactions){}
+
+    double convertPKRtoUSD(double pkr){
+        totalTransactions++;
+        return pkr/PKR_to_USD_Rate;
+    }
+};
+int main(){
+    string branch="North Karachi Branch";
+    
+    CurrencyExchange counter(278.5,branch,0);
+    double PKR=5578;
+    double USD=counter.convertPKRtoUSD(PKR);
+    cout<<"Converted "<<PKR<<" PKR into "<<USD<<" USD";
+}
