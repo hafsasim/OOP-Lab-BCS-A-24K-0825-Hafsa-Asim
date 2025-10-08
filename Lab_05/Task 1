@@ -1,0 +1,22 @@
+#include<iostream>
+using namespace std;
+
+class PetrolPump{
+    public:
+    static double pricePerLitre;
+    int pumpID;
+    double litresFilled;
+    public:
+    void printReceipt(){
+        cout<<"Total Amount due: "<<pricePerLitre*litresFilled<<endl;
+    }
+};
+double PetrolPump :: pricePerLitre=270.50;
+int main(){
+    PetrolPump p1;
+    PetrolPump::pricePerLitre=240.50;
+    p1.pumpID=101;
+    p1.litresFilled=3.5;
+    p1.printReceipt();
+    cout<<PetrolPump::pricePerLitre;
+}
