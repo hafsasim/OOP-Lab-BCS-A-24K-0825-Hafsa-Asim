@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+
+class SecureBankAccount{
+    private:
+    int accountNumber;
+    double balance;
+    const string accountType;
+    int *logHistory;
+    public:
+    SecureBankAccount(int accountNumber, double balance,string accountType, int logs):accountType(accountType){
+        if(balance<500){
+            cout<<"Error: initial balance must be atleast 500.0 PKR";
+        }
+        else{
+        this->balance=balance;
+        this->accountNumber=accountNumber;
+        logHistory=new int(logs);
+        }
+    }
+    SecureBankAccount(const SecureBankAccount &A):accountType(A.accountType){
+        logHistory=new int(*A.logHistory);
+        accountNumber=A.accountNumber;
+        balance=A.balance;
+    }
+    ~SecureBankAccount(){
+        delete logHistory;
+        cout<<"Account: "<<accountNumber<<" is being deleted....";
+    }
+};
+int main(){
+    SecureBankAccount acc1(101, 1200, "Current", 5);
+    SecureBankAccount acc2 = acc1; 
+    
+    return 0;
+}
