@@ -1,0 +1,78 @@
+Answer 01:
+A friend function can’t directly change the object that calls it because it doesn’t have a this pointer. Since the += operator needs to update the left-hand side object, 
+it should be written as a member function instead.
+Code:
+#include <iostream>
+using namespace std;
+
+class Number{
+private:
+    int value;
+public:
+    Number(int v=0){value=v;}
+    Number& operator+=(const Number &n){value+=n.value; return *this;}
+    void show(){cout<<"Value: "<<value<<endl;}
+};
+
+int main(){
+    Number n1(10),n2(5);
+    n1+=n2;
+    n1.show();
+    return 0;
+}
+Answer 2:
+Yes, a friend function can be used when one operand is a primitive type. The primitive type cannot be on the left-hand side if you want it to interact with the object
+via a member function, so a friend function is necessary.
+code:
+#include <iostream>
+using namespace std;
+
+class Number{
+private:
+    int value;
+public:
+    Number(int v=0){value=v;}
+    friend Number operator+(int n,const Number &num);
+    friend Number operator+(const Number &num,int n);
+    void show(){cout<<"Value: "<<value<<endl;}
+};
+
+Number operator+(int n,const Number &num){return Number(n+num.value);}
+Number operator+(const Number &num,int n){return Number(num.value+n);}
+
+int main(){
+    Number n1(10);
+    Number n2=n1+5;
+    Number n3=7+n1;
+    n2.show();
+    n3.show();
+    return 0;
+}
+Answer 3:
+A friend function can only access instance (non-static) members if it has an object or a reference to that object. It can’t use non-static private or protected members 
+on its own. But it can access static private members directly since they belong to the class itself, not to any specific object.
+code:
+#include <iostream>
+using namespace std;
+
+class Example{
+private:
+    int data;
+    static int staticData;
+public:
+    Example(int d=0){data=d; staticData=100;}
+    friend void showData(Example &e);
+    friend void showStatic();
+};
+
+int Example::staticData=0;
+
+void showData(Example &e){cout<<"Private data: "<<e.data<<endl;}
+void showStatic(){cout<<"Static data: "<<Example::staticData<<endl;}
+
+int main(){
+    Example obj(50);
+    showData(obj);
+    showStatic();
+    return 0;
+}
