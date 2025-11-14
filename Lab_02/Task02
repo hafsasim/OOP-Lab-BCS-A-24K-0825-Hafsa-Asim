@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+void FirstAndLastIndex(const string& str,char ch,int* first,int* last){
+    bool found=false;
+    for(int i=0;i<str.length();i++){
+        if(str[i]==ch){
+            if(!found){
+                *first=i;
+                found=true;
+            }
+            *last=i;
+        }
+    }
+    if(!found){
+        cout<<"Character '"<<ch<<"' not found in the string."<<endl;
+    }
+}
+
+int main(){
+    string text;
+    char c;
+    int firstIndex,lastIndex;
+
+    cout<<"Enter a string: ";
+    getline(cin,text);
+    cout<<"Enter a character to search: ";
+    cin>>c;
+
+    FirstAndLastIndex(text,c,&firstIndex,&lastIndex);
+
+    if(firstIndex>=0)
+        cout<<"First occurrence: "<<firstIndex<<endl<<"Last occurrence: "<<lastIndex<<endl;
+
+    return 0;
+}
