@@ -1,0 +1,85 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class ClassSchedule {
+private:
+    string day;
+    string time;
+public:
+    ClassSchedule(string d="", string t="") {
+        day=d;
+        time=t;
+    }
+    void showSchedule() {
+        cout<<"Day: "<<day<<", Time: "<<time<<endl;
+    }
+};
+
+class Student {
+private:
+    const int enrollmentID;
+    string name;
+public:
+    Student(int id,string n) : enrollmentID(id) {
+        name=n;
+    }
+    void showStudent() {
+        cout<<"Enrollment ID: "<<enrollmentID<<", Name: "<<name<<endl;
+    }
+};
+
+class CourseSection {
+private:
+    string sectionName;
+    ClassSchedule schedule;
+    Student* students[20];
+    int studentCount;
+    static int totalSections;
+public:
+    CourseSection(string sName,string day,string time)
+        : sectionName(sName), schedule(day,time) {
+        studentCount=0;
+        totalSections++;
+    }
+    ~CourseSection() {
+        totalSections--;
+    }
+    void addStudent(Student* s) {
+        if(studentCount<20)
+            students[studentCount++]=s;
+    }
+    void showSection() {
+        cout<<endl<<"Course Section: "<<sectionName<<endl;
+        schedule.showSchedule();
+        cout<<"Enrolled Students:"<<endl;
+        for(int i=0;i<studentCount;i++)
+            students[i]->showStudent();
+    }
+    static void showTotalSections() {
+        cout<<"Total Course Sections this Semester: "<<totalSections<<endl;
+    }
+};
+
+int CourseSection::totalSections=0;
+
+int main() {
+    Student s1(101,"Hafsa");
+    Student s2(102,"Nimra");
+    Student s3(103,"Shorouq");
+
+    CourseSection cs1("BCS-A","Monday","09:00-11:00");
+    CourseSection cs2("BCS-B","Wednesday","13:00-15:00");
+
+    cs1.addStudent(&s1);
+    cs1.addStudent(&s2);
+    cs2.addStudent(&s3);
+
+    cs1.showSection();
+    cs2.showSection();
+
+    cout<<endl;
+    CourseSection::showTotalSections();
+
+    return 0;
+}
