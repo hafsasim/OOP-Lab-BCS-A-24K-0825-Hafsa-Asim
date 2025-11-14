@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Kitchen {
+private:
+    int stoveCount;
+    string type;
+
+public:
+    Kitchen() {
+        stoveCount=0;
+        type="";
+    }
+
+    Kitchen(int s,string t) {
+        stoveCount=s;
+        type=t;
+    }
+
+    void showKitchen() {
+        cout<<"Kitchen Type: "<<type<<", Stoves: "<<stoveCount<<endl;
+    }
+};
+
+class Apartment {
+private:
+    const int apartmentID;
+    Kitchen kitchen;
+    string ownerName;
+
+public:
+    Apartment(int id,string owner,int stove,string ktype)
+        : apartmentID(id), kitchen(stove,ktype)
+    {
+        ownerName=owner;
+    }
+
+    void showApartment() {
+        cout<<"Apartment ID: "<<apartmentID<<endl;
+        cout<<"Owner: "<<ownerName<<endl;
+        kitchen.showKitchen();
+    }
+};
+
+int main() {
+    Apartment a1(101,"Mr. Bilal",2,"Open Kitchen");
+    Apartment a2(202,"Miss. Hafsa",1,"Closed Kitchen");
+
+    a1.showApartment();
+    cout<<endl;
+    a2.showApartment();
+
+    return 0;
+}
