@@ -1,0 +1,145 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class MaintenanceTool;
+
+class Device{
+protected:
+    string id;
+    string type;
+    double power;
+    bool isOn;
+public:
+    Device(string deviceID,string deviceType,double powerRating){
+        id=deviceID;
+        type=deviceType;
+        power=powerRating;
+        isOn=false;
+    }
+    virtual void turnOn(){
+        isOn=true;
+        cout<<type<<" (ID:"<<id<<") is now ON."<<endl;
+    }
+    virtual void turnOff(){
+        isOn=false;
+        cout<<type<<" (ID:"<<id<<") is now OFF."<<endl;
+    }
+    virtual double calcPowerUsage(int hours)=0;
+    string getType(){ return type; }
+    string getID(){ return id; }
+    bool getStatus(){ return isOn; }
+};
+
+class Light: public Device{
+public:
+    Light(string deviceID,string deviceType,double powerRating): Device(deviceID,deviceType,powerRating){}
+    void turnOn(){ isOn=true; cout<<type<<" (ID:"<<id<<") switched ON."<<endl; }
+    void turnOff(){ isOn=false; cout<<type<<" (ID:"<<id<<") switched OFF."<<endl; }
+    double calcPowerUsage(int hours){ return power*hours; }
+};
+
+class Fan: public Device{
+private:
+    int speedLevel;
+public:
+    Fan(string deviceID,string deviceType,double powerRating,int speed): Device(deviceID,deviceType,powerRating),speedLevel(speed){}
+    void turnOn(){ isOn=true; cout<<type<<" (ID:"<<id<<") ON at Speed "<<speedLevel<<"."<<endl; }
+    void turnOff(){ isOn=false; cout<<type<<" (ID:"<<id<<") turned OFF."<<endl; }
+    double calcPowerUsage(int hours){ return power*hours*speedLevel; }
+};
+
+class AirConditioner: public Device{
+private:
+    int targetTemp;
+    int roomTemp;
+public:
+    AirConditioner(string deviceID,string deviceType,double powerRating,int temp): Device(deviceID,deviceType,powerRating),targetTemp(temp){ roomTemp=30; }
+    void turnOn(){ isOn=true; cout<<type<<" (ID:"<<id<<") ON. Cooling to "<<targetTemp<<"°C."<<endl; }
+    void turnOff(){ isOn=false; cout<<type<<" (ID:"<<id<<") turned OFF."<<endl; }
+    double calcPowerUsage(int hours){ return power*hours*(1-((double)(roomTemp-targetTemp)/100)); }
+};
+
+class SecuritySystem: public Device{
+private:
+    string lastAlert;
+public:
+    SecuritySystem(string deviceID,string deviceType,double powerRating): Device(deviceID,deviceType,powerRating){ lastAlert="Intrusion detected at 3 AM"; }
+    void turnOn(){ isOn=true; cout<<type<<" (ID:"<<id<<") activated."<<endl; }
+    void turnOff(){ if(isOn){ isOn=false; cout<<type<<" (ID:"<<id<<") deactivated."<<endl; } }
+    double calcPowerUsage(int hours){ return power*hours; }
+    friend void accessSecurityLogs(class User&);
+    friend class MaintenanceTool;
+};
+
+class User{
+private:
+    string userID;
+    string role;
+    int accessLevel;
+    Device* devices[10];
+    int count;
+public:
+    User(string uid,string r,int level): userID(uid), role(r), accessLevel(level){ count=0; }
+    void assignDevice(Device* d){ if(count<10) devices[count++]=d; }
+    void viewDevices(){
+        cout<<"User "<<userID<<" - Accessible Devices:"<<endl;
+        for(int i=0;i<count;i++){
+            if(devices[i]->getType()!="Home Alarm") cout<<"- "<<devices[i]->getType()<<endl;
+        }
+    }
+    friend void accessSecurityLogs(User&);
+};
+
+void accessSecurityLogs(User &u){
+    if(u.role=="Maintenance Staff"){
+        cout<<"User "<<u.userID<<" - Security Logs:"<<endl;
+        cout<<"- Intrusion detected at 3 AM"<<endl;
+        cout<<"- System requires reset"<<endl;
+    }else{
+        cout<<"Access Denied. Only maintenance staff can view logs."<<endl;
+    }
+}
+
+class MaintenanceTool{
+public:
+    void reset(SecuritySystem &s){
+        cout<<"Security System ["<<s.id<<"] alerts reset."<<endl;
+        s.lastAlert="No alerts";
+    }
+};
+
+int main(){
+    User regular("U001","Regular User",1);
+    User maintenance("U002","Maintenance Staff",2);
+
+    Light l1("L001","LED Light",10);
+    Fan f1("F001","Ceiling Fan",75,3);
+    AirConditioner ac1("AC001","Split AC",1500,25);
+    SecuritySystem ss1("S001","Home Alarm",100);
+
+    regular.assignDevice(&l1);
+    regular.assignDevice(&f1);
+    regular.assignDevice(&ac1);
+
+    maintenance.assignDevice(&l1);
+    maintenance.assignDevice(&f1);
+    maintenance.assignDevice(&ac1);
+    maintenance.assignDevice(&ss1);
+
+    l1.turnOn();
+    f1.turnOn();
+    ac1.turnOn();
+    ss1.turnOn();
+
+    cout<<"Power Consumption:"<<endl;
+    cout<<"LED Light: "<<l1.calcPowerUsage(5)<<" Watts"<<endl;
+    cout<<"Ceiling Fan: "<<f1.calcPowerUsage(3)<<" Watts"<<endl;
+    cout<<"Split AC: "<<ac1.calcPowerUsage(6)<<" Watts"<<endl;
+    cout<<"Security System: "<<ss1.calcPowerUsage(24)<<" Watts"<<endl;
+
+    regular.viewDevices();
+    accessSecurityLogs(maintenance);
+
+    return 0;
+}
