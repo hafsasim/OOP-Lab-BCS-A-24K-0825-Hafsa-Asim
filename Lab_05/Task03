@@ -1,0 +1,73 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Doctor {
+private:
+    string name;
+    string specialization;
+
+public:
+    Doctor() {
+        name="";
+        specialization="";
+    }
+
+    Doctor(string n,string s) {
+        name=n;
+        specialization=s;
+    }
+
+    void showDoctor() {
+        cout<<"Name: "<<name<<", Specialization: "<<specialization<<endl;
+    }
+};
+
+class Hospital {
+private:
+    string hospitalName;
+    Doctor* doctors[10];
+    int count;
+
+public:
+    Hospital(string name="") {
+        hospitalName=name;
+        count=0;
+    }
+
+    void addDoctor(Doctor* d) {
+        if(count<10) {
+            doctors[count++]=d;
+        }
+    }
+
+    void showHospitalDoctors() {
+        cout<<"\nHospital: "<<hospitalName<<endl;
+        cout<<"Doctors working here:\n";
+        for(int i=0;i<count;i++) {
+            doctors[i]->showDoctor();
+        }
+    }
+};
+
+int main() {
+    Doctor d1("Dr. Hafsa","Cardiologist");
+    Doctor d2("Dr. Nimra","Dermatologist");
+    Doctor d3("Dr. Shorouq","Neurologist");
+
+    Hospital h1("Aga Khan University Hospital Karachi");
+    Hospital h2("Liaquat National Hospital Karachi");
+
+    h1.addDoctor(&d1);
+    h1.addDoctor(&d2);
+
+    cout<<"\nDoctor existing independently:\n";
+    d3.showDoctor();
+
+    h2.addDoctor(&d3);
+
+    h1.showHospitalDoctors();
+    h2.showHospitalDoctors();
+
+    return 0;
+}
