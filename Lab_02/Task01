@@ -1,0 +1,24 @@
+#include <iostream>
+using namespace std;
+
+void SwapValues(int* a, int* b){ 
+    if(a != b){  
+        *a=*a+*b; 
+        *b=*a-*b; 
+        *a=*a-*b; 
+    }
+}
+
+int main(){ 
+    int x, y;
+    cout<<"Enter first value: "; 
+    cin>> x; 
+    cout<<"Enter second value: "; 
+    cin>>y; 
+
+    cout<<"Before swap: x="<<x<<", y="<<y<< endl; 
+    SwapValues(&x, &y);
+    cout<<"After swap: x="<<x<<", y="<<y<<endl; 
+
+    return 0;
+}
