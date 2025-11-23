@@ -1,0 +1,68 @@
+#include<iostream>
+#include<stdexcept>
+using namespace std;
+
+class InvalidAgeException:public exception{
+public:
+    const char* what()const noexcept override{
+        return "Age must be between 1 and 119";
+    }
+};
+
+class InvalidSalaryException:public exception{
+public:
+    const char* what()const noexcept override{
+        return "Salary must be positive";
+    }
+};
+
+class InvalidHeightException:public exception{
+public:
+    const char* what()const noexcept override{
+        return "Height must be positive";
+    }
+};
+
+int main(){
+    int age;
+    double salary;
+    double height;
+
+    cout<<"Enter age:";
+    cin>>age;
+    try{
+        if(age<=0||age>=120){
+            throw InvalidAgeException();
+        }
+        cout<<"Age accepted"<<endl;
+    }
+    catch(const InvalidAgeException& e){
+        cout<<"InvalidAgeException caught:"<<e.what()<<endl;
+    }
+
+    cout<<"Enter salary:";
+    cin>>salary;
+    try{
+        if(salary<=0){
+            throw InvalidSalaryException();
+        }
+        cout<<"Salary accepted"<<endl;
+    }
+    catch(const InvalidSalaryException& e){
+        cout<<"InvalidSalaryException caught:"<<e.what()<<endl;
+    }
+
+    cout<<"Enter height:";
+    cin>>height;
+    try{
+        if(height<=0){
+            throw InvalidHeightException();
+        }
+        cout<<"Height accepted"<<endl;
+    }
+    catch(const InvalidHeightException& e){
+        cout<<"InvalidHeightException caught:"<<e.what()<<endl;
+    }
+
+    return 0;
+}
