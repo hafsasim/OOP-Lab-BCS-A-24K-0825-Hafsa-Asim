@@ -1,0 +1,70 @@
+#include <iostream>
+#include <stdexcept>
+using namespace std;
+
+class InsufficientFundsException:public exception{
+public:
+    const char* what()const noexcept override{
+        return "Insufficient funds to complete withdrawal!";
+    }
+};
+
+class BankAccount{
+private:
+    double balance;
+public:
+    BankAccount(double b){balance=b;}
+    double getBalance()const{return balance;}
+
+    void deposit(double amount){
+        balance+=amount;
+    }
+
+    void withdraw(double amount){
+        if(amount>balance){
+            throw InsufficientFundsException();
+        }
+        balance-=amount;
+    }
+};
+
+int main(){
+    BankAccount acc(500);
+    int choice;
+    double amount;
+
+    while(true){
+        cout<<"Current Balance: $"<<acc.getBalance()<<endl;
+        cout<<"1. Withdraw\n2. Deposit\n3. Exit\nEnter choice: ";
+        cin>>choice;
+
+        if(choice==3){
+            cout<<"Goodbye!"<<endl;
+            break;
+        }
+
+        cout<<"Enter amount: $";
+        cin>>amount;
+
+        try{
+            if(choice==1){
+                acc.withdraw(amount);
+                cout<<"Withdrawal successful! New Balance: $"<<acc.getBalance()<<endl;
+            }
+            else if(choice==2){
+                acc.deposit(amount);
+                cout<<"Deposit successful! New Balance: $"<<acc.getBalance()<<endl;
+            }
+            else{
+                cout<<"Invalid option!"<<endl;
+            }
+        }
+        catch(const InsufficientFundsException &e){
+            cout<<"Error: "<<e.what()<<endl;
+        }
+
+        cout<<endl;
+    }
+
+    return 0;
+}
