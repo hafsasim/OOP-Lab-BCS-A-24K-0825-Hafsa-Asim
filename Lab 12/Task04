@@ -1,0 +1,34 @@
+#include <iostream>
+#include <fstream>
+#include <ctime>
+using namespace std;
+
+class SystemLogger{
+private:
+    ofstream file;
+public:
+    SystemLogger(){
+        file.open("systemlog.txt",ios::app);
+        if(!file){
+            cout<<"Error opening file!"<<endl;
+        }
+    }
+
+    void logStartup(){
+        time_t now=time(0);
+        char* dt=ctime(&now);
+
+        file<<"System started at: "<<dt;
+    }
+
+    ~SystemLogger(){
+        file.close();
+        cout<<"Startup logged successfully!"<<endl;
+    }
+};
+
+int main(){
+    SystemLogger logger;
+    logger.logStartup();
+    return 0;
+}
