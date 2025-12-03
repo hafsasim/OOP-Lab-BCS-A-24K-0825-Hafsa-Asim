@@ -1,0 +1,35 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+usingnamespacestd;
+classDiary{
+private:
+    ofstreamfile;
+public:
+    Diary(){
+        file.open("diary.txt",ios::app);
+        if(!file){
+            cout<<"Error opening file!"<<endl;
+        }
+    }
+    voidwriteEntries(){
+        stringline;
+        cout<<"Start writing your diary(type exit to finish):"<<endl;
+        while(true){
+            getline(cin,line);
+            if(line=="exit"){
+                break;
+            }
+            file<<line<<"\n";
+        }
+    }
+    ~Diary(){
+        file.close();
+        cout<<"Diarysaved!"<<endl;
+    }
+};
+intmain(){
+    Diaryd;
+    d.writeEntries();
+    return0;
+}
