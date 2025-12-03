@@ -1,0 +1,35 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class GreetingCard{
+	private:
+	string name;
+	string message;
+	public:
+		GreetingCard(){
+		}
+		void GetInput(){
+			cout<<"Enter recipient's name: ";
+			getline(cin, name);
+			cout<<"Enter your Short Message: ";
+			getline(cin, message);
+		}
+		void WritetoFile(){
+			ofstream file("greeting.txt");
+			if(!file){
+				cout<<"Error opening file!";
+				return;
+			}
+			file<<"Dear "<<name<<",\n";
+			file<<message<<endl;
+			file<<"Best Regards!";
+			file.close();
+		}
+};
+int main(){
+	GreetingCard card1;
+	card1.GetInput();
+	card1.WritetoFile();
+}
