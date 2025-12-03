@@ -1,0 +1,40 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class WorkshopRegistration{
+private:
+    ofstream file;
+public:
+    WorkshopRegistration(){
+        file.open("signup.txt",ios::app);
+        if(!file){
+            cout<<"Error opening file"<<endl;
+        }
+    }
+    void registerUsers(){
+        string name,email;
+        char choice='y';
+        while(choice=='y'||choice=='Y'){
+            cout<<"Enter name: ";
+            getline(cin,name);
+            cout<<"Enter email: ";
+            getline(cin,email);
+            file<<"Name: "<<name<<", Email: "<<email<<"\n";
+            cout<<"Add another user? (y/n): ";
+            cin>>choice;
+            cin.ignore();
+        }
+    }
+    ~WorkshopRegistration(){
+        file.close();
+        cout<<"All registrations are successfully save!"<<endl;
+    }
+};
+
+int main(){
+    WorkshopRegistration wr;
+    wr.registerUsers();
+    return 0;
+}
