@@ -1,0 +1,46 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class SpellChecker{
+private:
+    string filename;
+public:
+    SpellChecker(string f):filename(f){}
+    void fixFirstTypo()const{
+        fstream file(filename, ios::in | ios::out);
+        if(!file){
+            cout<<"File not found!"<<endl;
+            return;
+        }
+
+        string word;
+        streampos pos;
+        bool fixed=false;
+
+        while(file>>word){
+            if(word=="teh"){
+                pos=file.tellg();
+                pos-=word.length();
+                file.seekp(pos);
+                file<<"the";
+                fixed=true;
+                break;
+            }
+        }
+
+        if(fixed)
+            cout<<"First typo corrected."<<endl;
+        else
+            cout<<"No typo found."<<endl;
+
+        file.close();
+    }
+};
+
+int main(){
+    SpellChecker sc("draft.txt");
+    sc.fixFirstTypo();
+    return 0;
+}
