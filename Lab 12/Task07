@@ -1,0 +1,53 @@
+#include<iostream>
+#include<fstream>
+using namespace std;
+
+struct Student{
+    char name[50];
+    int id;
+    float gpa;
+};
+
+int main(){
+    int n;
+    cout<<"Enter number of students: ";
+    cin>>n;
+
+    Student s;
+
+    ofstream fout("students.dat",ios::binary);
+    if(!fout){
+        cout<<"File error!";
+        return 0;
+    }
+
+    for(int i=0;i<n;i++){
+        cout<<"Enter name: ";
+        cin.ignore();
+        cin.getline(s.name,50);
+        cout<<"Enter ID: ";
+        cin>>s.id;
+        cout<<"Enter GPA: ";
+        cin>>s.gpa;
+
+        fout.write((char*)&s,sizeof(s));
+    }
+    fout.close();
+
+    ifstream fin("students.dat",ios::binary);
+    if(!fin){
+        cout<<"Read error!";
+        return 0;
+    }
+
+    cout<<endl<<"Student Records"<<endl;
+
+    while(fin.read((char*)&s,sizeof(s))){
+        cout<<"Name: "<<s.name<<endl;
+        cout<<"ID: "<<s.id<<endl;
+        cout<<"GPA: "<<s.gpa<<endl<<endl;
+    }
+    fin.close();
+
+    return 0;
+}
