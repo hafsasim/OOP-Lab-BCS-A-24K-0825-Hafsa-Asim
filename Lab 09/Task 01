@@ -1,0 +1,66 @@
+#include <iostream>
+using namespace std;
+
+
+class SmartDevice{
+public:
+    virtual void activate()=0;
+    virtual void deactivate()=0;
+    virtual void getStatus() const=0;
+    virtual ~SmartDevice(){}
+};
+
+class SmartLight : public SmartDevice{
+private:
+    bool isOn;
+public:
+    SmartLight():isOn(false){}
+    void activate() override{
+        isOn=true;
+        cout<<"SmartLight activated."<<endl;
+    }
+    void deactivate() override{
+        isOn=false;
+        cout<<"SmartLight deactivated"<<endl;
+    }
+    void getStatus() const override{
+        cout<<"SmartLight is "<<(isOn?"ON":"OFF")<<endl;
+    }
+};
+class Thermostat : public SmartDevice{
+private:
+    bool isActive;
+    int temperature;
+public:
+    Thermostat():isActive(false),temperature(22){}
+    void activate() override{
+        isActive=true;
+        cout<<"Thermostat activated."<<endl;
+    }
+    void deactivate() override{
+        isActive=false;
+        cout<<"Thermostat deactivated."<<endl;
+    }
+    void getStatus() const override{
+        cout<<"Thermostat is "<<(isActive?"ON":"OFF")<<", Temperature: "<<temperature<<"°C"<<endl;
+    }
+};
+
+int main(){
+    SmartDevice* devices[2];
+    devices[0]=new SmartLight();
+    devices[1]=new Thermostat();
+
+    for(int i=0;i<2;i++){
+        devices[i]->activate();
+        devices[i]->getStatus();
+        devices[i]->deactivate();
+        devices[i]->getStatus();
+        cout<<endl;
+    }
+
+    for(int i=0;i<2;i++)
+        delete devices[i];
+
+    return 0;
+}
