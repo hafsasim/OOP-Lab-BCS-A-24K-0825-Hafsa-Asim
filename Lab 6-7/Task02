@@ -1,0 +1,60 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+class DiscountEngine{
+public:
+    double calculateDiscount(double amount){
+        if(amount>5000)
+            return amount*0.10;
+        else{
+            return amount*0.05;	
+		}
+    }
+
+    double calculateDiscount(double amount,string membershipLevel){
+        if(membershipLevel=="Gold")
+            return amount*0.20;
+        else if(membershipLevel=="Premium")
+            return amount*0.15;
+        else{
+            return calculateDiscount(amount);
+        }
+    }
+
+    double calculateDiscount(double amount,double sOffer,int lp){
+        double base=amount*sOffer;
+        double loyalty=lp*0.50;
+        return base+loyalty;
+    }
+
+    virtual double calculateCorporateDiscount(double amount){
+        return amount*0.12;
+    }
+
+    virtual ~DiscountEngine(){}
+};
+
+class CorporateDiscountEngine:public DiscountEngine{
+public:
+    double calculateCorporateDiscount(double amount)override{
+        if(amount>50000)
+            return amount*0.25;
+            
+        return amount*0.18;
+    }
+};
+
+int main(){
+    DiscountEngine regular;
+    CorporateDiscountEngine corporate;
+
+    cout<<"Regular Buyer Discount: "<<regular.calculateDiscount(6000)<<endl;
+    cout<<"Premium Member Discount: "<<regular.calculateDiscount(3000,"Gold")<<endl;
+    cout<<"Seasonal + Loyalty Discount: "<<regular.calculateDiscount(4000,0.10,80)<<endl;
+
+    DiscountEngine*engine=&corporate;
+    cout<<"Corporate Discount (Override):"<<engine->calculateCorporateDiscount(60000)<<endl;
+
+    return 0;
+}
