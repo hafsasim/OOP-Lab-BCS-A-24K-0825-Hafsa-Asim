@@ -1,0 +1,57 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+using namespace std;
+
+class CMSAnalyzer{
+private:
+    string inputFile;
+    string reportFile;
+public:
+    CMSAnalyzer(string inF,string outF):inputFile(inF),reportFile(outF){}
+    void analyze()const{
+        ifstream fin(inputFile);
+        if(!fin){
+            cout<<"Input file not found!"<<endl;
+            return;
+        }
+
+        int charCount=0, wordCount=0, lineCount=0, punctCount=0;
+        string line;
+        while(getline(fin,line)){
+            lineCount++;
+            charCount+=line.length();
+            istringstream iss(line);
+            string word;
+            while(iss>>word)
+                wordCount++;
+
+            for(char c: line)
+                if(ispunct(c))
+                    punctCount++;
+        }
+        fin.close();
+
+        ofstream fout(reportFile);
+        if(!fout){
+            cout<<"Report file error!"<<endl;
+            return;
+        }
+
+        fout<<"Article Analysis Report "<<endl;
+        fout<<"Total Characters: "<<charCount<<endl;
+        fout<<"Total Words: "<<wordCount<<endl;
+        fout<<"Total Lines: "<<lineCount<<endl;
+        fout<<"Punctuation Marks: "<<punctCount<<endl;
+        fout.close();
+
+        cout<<"Analysis saved to "<<reportFile<<endl;
+    }
+};
+
+int main(){
+    CMSAnalyzer analyzer("article.txt","report.txt");
+    analyzer.analyze();
+    return 0;
+}
