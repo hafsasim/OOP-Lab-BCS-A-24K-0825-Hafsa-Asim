@@ -1,0 +1,33 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+using namespace std;
+
+class SignalScanner{
+private:
+    string filename;
+public:
+    SignalScanner(string f):filename(f){}
+    void countSignals()const{
+        ifstream fin(filename);
+        if(!fin){
+            cout<<"File not found!"<<endl;
+            return;
+        }
+        char ch;
+        int count=0;
+        while(fin.get(ch)){
+            if(ch>='A'&&ch<='Z'){
+                count++;
+            }
+        }
+        fin.close();
+        cout<<"Signals detected: "<<count<<endl;
+    }
+};
+
+int main(){
+    SignalScanner s("secret.txt");
+    s.countSignals();
+    return 0;
+}
