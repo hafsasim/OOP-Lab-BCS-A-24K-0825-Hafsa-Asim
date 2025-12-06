@@ -1,0 +1,38 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+using namespace std;
+
+class BlogReader{
+private:
+    string filename;
+public:
+    BlogReader(string f):filename(f){}
+    void previewMiddle()const{
+        ifstream fin(filename);
+        if(!fin){
+            cout<<"File not found!"<<endl;
+            return;
+        }
+
+        fin.seekg(0,ios::end);
+        streampos filesize=fin.tellg();
+        fin.seekg(filesize/2,ios::beg);
+
+        string line;
+        int count=0;
+        while(count<10 && getline(fin,line)){
+            cout<<line<<endl;
+            count++;
+        }
+
+        fin.close();
+    }
+};
+
+int main(){
+    BlogReader reader("article.txt");
+    reader.previewMiddle();
+    return 0;
+}
+
