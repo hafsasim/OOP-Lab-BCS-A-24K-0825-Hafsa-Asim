@@ -1,0 +1,43 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class FileDebugger{
+private:
+    string filename;
+public:
+    FileDebugger(string f):filename(f){}
+    void inspect()const{
+        ifstream fin(filename, ios::binary);
+        if(!fin){
+            cout<<"File not found!"<<endl;
+            return;
+        }
+
+        long offset;
+        cout<<"Enter byte offset: ";
+        cin>>offset;
+
+        cout<<"Pointer before seek: "<<fin.tellg()<<endl;
+        fin.seekg(offset, ios::beg);
+        cout<<"Pointer after seek: "<<fin.tellg()<<endl;
+
+        char c;
+        int count=0;
+        while(count<100 && fin.get(c)){
+            cout<<c;
+            count++;
+        }
+        cout<<endl;
+
+        fin.close();
+    }
+};
+
+int main(){
+    FileDebugger debugger("debug_file.txt");
+    debugger.inspect();
+    return 0;
+}
+
