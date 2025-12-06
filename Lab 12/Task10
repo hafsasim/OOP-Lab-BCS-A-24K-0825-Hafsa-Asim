@@ -1,0 +1,37 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class BackupLogger{
+private:
+    string filename;
+public:
+    BackupLogger(string f):filename(f){}
+    void logMessages()const{
+        ofstream fout(filename, ios::app);
+        if(!fout){
+            cout<<"File error!"<<endl;
+            return;
+        }
+
+        string msg;
+        while(true){
+            cout<<"Enter log message (or exit to quit): ";
+            getline(cin, msg);
+            if(msg=="exit")
+                break;
+
+            fout<<msg<<endl;
+            cout<<"Current file size: "<<fout.tellp()<<" bytes"<<endl;
+        }
+
+        fout.close();
+    }
+};
+
+int main(){
+    BackupLogger logger("backup_log.txt");
+    logger.logMessages();
+    return 0;
+}
