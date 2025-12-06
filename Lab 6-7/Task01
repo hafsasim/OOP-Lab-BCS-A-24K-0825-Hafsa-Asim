@@ -1,0 +1,82 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Vehicle{
+protected:
+    int speed;
+    int capacity;
+    string fuelType;
+public:
+    Vehicle(int s,int c,string f):speed(s),capacity(c),fuelType(f){}
+    virtual void start(){
+	cout<<"Vehicle starting"<<endl;
+	}
+    virtual void stop(){
+	cout<<"Vehicle stopping"<<endl;
+	}
+    virtual float calculateEnergyConsumption()const=0;
+    virtual void showInfo()const{
+        cout<<"Speed:"<<speed<<endl<<"Capacity:"<<capacity<<endl<<"Fuel:"<<fuelType<<endl;
+    }
+    virtual ~Vehicle(){}
+};
+
+class Car:public Vehicle{
+public:
+    Car(int s,int c):Vehicle(s,c,"Petrol"){}
+    void start() override{
+	cout<<"Car engine started."<<endl;
+	}
+    void stop() override{
+	cout<<"Car engine turned off."<<endl;
+	}
+    float calculateEnergyConsumption()const override{
+	return speed*0.8f;
+	}
+};
+
+class Bus:public Vehicle{
+public:
+    Bus(int s,int c):Vehicle(s,c,"Diesel"){}
+    void start()override{
+	cout<<"Bus engine roars to life."<<endl;
+	}
+    void stop()override{
+	cout<<"Bus brakes applied, stopping."<<endl;
+	}
+    float calculateEnergyConsumption()const override{
+	return speed*1.5f;
+	}
+};
+
+class ElectricBike:public Vehicle{
+public:
+    ElectricBike(int s,int c):Vehicle(s,c,"Battery"){}
+    void start() override{
+	cout<<"Electric bike starts silently."<<endl;
+	}
+    void stop() override{
+	cout<<"Electric bike stops quietly."<<endl;
+	}
+    float calculateEnergyConsumption()const override{return speed*0.3f;
+	}
+};
+
+int main(){
+    Vehicle* v1=new Car(120,4);
+    Vehicle* v2=new Bus(80,50);
+    Vehicle* v3=new ElectricBike(40,1);
+    Vehicle* vehicles[]={v1,v2,v3};
+
+    for(int i=0;i<3;i++){
+        vehicles[i]->showInfo();
+        vehicles[i]->start();
+        cout<<"Energy Consumption:"<<vehicles[i]->calculateEnergyConsumption()<<endl<<endl;
+    }
+
+    delete v1;
+    delete v2;
+    delete v3;
+    return 0;
+}
